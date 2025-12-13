@@ -1,0 +1,30 @@
+After installing docker in server the user we need to add in docker group.
+
+# sudo usermod -aG username -- adding user to docker group after adding user refresh the server
+
+we can creat CA (container) after downloading/pulling the images .it pull images from central registery docker hub.same as repoes.
+
+#docker pull images: we can give versions or if we can give anything then it'll pull latest thinmg.
+
+#docker create CA.
+#docker ps -a -- it shows all CA including status of all CA
+#docker start CA-ID
+
+#docker rm or rm -f CA-ID -- To remove or delete CA
+#docker rmi image         -- To delete CA images
+#docker ps -a -q          -- it'll show all CA-ID'
+#docker rm -f  'docker ps -a -q' -- To delete all CA vth help CA-ID'S
+
+#docker run -d image --insteaded of pull image + creating starting + starting CA sepertly by using run in one  command it do all 3 steps and -d indictes the if we run only run means the process will run in fore gorund nothing but it will see in the terminal it take time so if we give -d means we are sending to backend to run this we called detach mode 0r detach the screen.
+
+In every server there are 65535 ports and same CA also has same ports .server ports we call host ports and CA ports.host ports we can not reuseable and CA ports are fixed to particular service or images.
+
+#docker -d -p 8080(host port):80(CA port) --name CA-NAME image --To give name for CA vthout defalut name.we can't create duplicate CA names
+
+#docker exec -it CA-NAME bash --- To go into CA or login to CA
+    exec --excute
+    -it -- interactive terminal
+
+#docker inspect CA-NAME -- To know the CA info like ip,ports,versions etc
+
+#docker logs CA-NAME -- to check latest logs of CA if we need to check all logs we need to login to CA and then we need to check
