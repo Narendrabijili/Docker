@@ -1,0 +1,17 @@
+Suppose taking modern example like Food deliver app like Zomato/swiggy .For this we need
+  1.A web server --To handle order nothing but customers will make orders
+  2.A database ---- To store orders,user data etc.
+  3. A payment gateway -- To process payments.
+
+So comparing bare metal sever vs VM'S vs CA
+
+1. Bare metal server:  A separate physical server dedicated Entirely to your app.we install every thing on that physical server only (wenserevr,DB,payment gateway).By doing all in one server it has max performances (cpu,RAM usage) so we can have full control. But there is no isolation for all things and very hard to scale up if need in future.If we run app then we need full server power it waste full.
+
+2.VM'S:  If we have one physical server we can diving multiple VM's vth help of hypervisor then we can assume we can divied into 3 VM'S. In VM1 we can run web server in VM2 database and in VM3 we can for payment gate way.In each VM'S we can install OS as per your requirement.By this there is full lsolation,Flexibility means we can scale up by adding VM'S and OS we can choose as we requitred.But Heavyweight each VM need its own OS and booting time is in mints
+
+3.Containers: Here there is sharing Host os kernel user spaces.we can create multiple CA'S.CA1 for Wwebserver and CA2 for database and CA3 for payment. no need of its own OS in each CA.so it is lightweight and staring time very less and portable and easly saclable but less isolation due to OS sharing and required OS dependency
+
+
+VM'S and CA:
+  VM's are full fledged computer running on hypervisor each vm has its own OS,binaries,libraries and apps etc,And it is strong isolation and flexibility but heavyweight means it requires its                OS,lot of resources CPU,RAM,storage and takes so much time to reboot.
+  CA are lightweight sharing of Host OS kernnel its stsrt in seconds and protable means run in anyware .and we can run multiple CA on one host better resources utilization.but less isloation.]
