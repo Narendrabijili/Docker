@@ -13,8 +13,11 @@ docker build -t from:v1 .cd
 # FROM instruction:
 # =================
 # From almalinux:9 ( first we take almalinux as base os .it same as redhat   )
-# docker bulid -t from:v1 . (this buliding of image)
-# -t --- tahe
+
+#Building image:
+===============
+# docker bulid -t from:v1 . (after getting OS we need to build image from this we can build image )
+# -t --- tage
 # from --image name
 # . -- current directory has docker file -->
 
