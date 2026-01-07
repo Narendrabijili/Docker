@@ -1,0 +1,7 @@
+while creating  docker image and running CA.
+
+First we need dockerfile.In dockerfile we need dockerfile instructions 
+
+🔹 Build-time instructions (Used while building the image) : FROM,RUN,COPY,ADD,WOKDIR,LABEL,ARG
+
+🔹 Runtime instructions :CMD,ENTRYPOINT,ENV,USER,EXPOSE,HEALTHCHECK
