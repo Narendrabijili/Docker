@@ -19,7 +19,8 @@ A Docker image contains the application code, libraries, dependencies, and confi
 A Docker container is created from an image and represents the running application. Containers are lightweight, isolated, and can be started, stopped, or deleted easily.
 Multiple containers can be created from the same image.
 
-Image: Template / blueprint
+AMI = OS +Configurations (packages +app code + app libraries +app runtime )
+Image: Template / blueprint (basre min OS + system packages +app runtime +app code +app libraries )
 Container: Running application
 
 ########################################################################################################
