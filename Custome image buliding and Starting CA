@@ -1,7 +1,83 @@
 while creating  docker image and running CA.
 
-First we need dockerfile.In dockerfile we need dockerfile instructions 
+First we need dockerfile.In dockerfile we need dockerfile instructions
 
-🔹 Build-time instructions (Used while building the image) : FROM,RUN,COPY,ADD,WOKDIR,LABEL,ARG
+🔹 Build-time instructions  (executes at the time of image creation) :-FROM,RUN,COPY,ADD,WOKDIR,LABEL,ARG
 
-🔹 Runtime instructions :CMD,ENTRYPOINT,ENV,USER,EXPOSE,HEALTHCHECK
+🔹 Runtime instructions:CMD,ENTRYPOINT,ENV,USER,EXPOSE,HEALTHCHECK
+
+🔹 RUN : RUN instruction is used for to installing packages ,doing some configurations e.t.c .
+         RUN executes at the time of image creation
+         In dockerfile there can have N of RUN instructions.
+
+          From almalinux:9
+          RUN dnf install nginx -y
+
+🔹 CMD : CMD excutes at the time of CA creation.Nothing but at the time of docker run.
+         There should be only one CMD in dockerfile
+ 
+           CMD = default command at container start
+
+
+  Note :  RUN VS CMD :
+          1.RUN execute at time of image creation.We can use multiple run inst in dockerfile due to like we need install multiple packages ect.
+           2.CMD execute at the time of container creation.We can execute only one CMD in docker file.
+
+🔹 COPY :copy instruction is used to copy the code from local to container.
+
+🔹 ADD :copy and add both are used for copies the code from local to CA.but add  has 2 advantages
+         1.it can directly fetch the file from internet
+         2.it can directly untar the file from CA.
+
+
+🔹 Label :It nothing but a tag in aws.it will help at the time of filtering
+
+          LABEL COURSE="Devops" \
+                NAER="narendra" \
+                Time="1month" \
+
+The above is syntax for using multiple lables.
+
+🔹 MAINTAINER : The MAINTAINER instruction in a Dockerfile was originally used to specify who maintains the image.
+ 
+              FROM almalinux:9
+        LABEL COURSE="Devops" \
+        NAME="narendra" \
+        Time="1month" \
+        maintainer="bijilinariit@gmail.com"
+
+we need to push images to docker hub then
+  1.First we need to login docker
+   2.need to retag thge image
+   3.then we can push
+ 
+ 1.login to docker
+ 2.docker tag label:v1 bijilinari/label:v1
+  3.docker push docker.io/bijilinari/label:v1 (docker push URL/username/image-name:version)
+
+🔹 **EXPOSE :**The EXPOSE instruction in a Dockerfile is used to document which port your container listens on at runtime.(Purely for documentation purpose)
+The EXPOSE instruction doesn't actually publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container, about which ports are intended to be published.
+🔹 ENV : The ENV instruction in a Dockerfile is used to set environment variables inside the container.
+🔹 Entrypoint : CMD inst can be override.
+                we can't override Entrypint.if we try to do it will upend.
+                we can use both combination for better results .Entry point will have command and default arguments supplied by CMD.
+we can always override default args through command line
+
+🔹 USER : While accessing cantainer we are getting root access .it is danger to get root access .Vth root access root can do any thing in CA so it danger.
+         
+         [ec2-user@ip-172-31-25-237 USER]$ docker ps
+CONTAINER ID   IMAGE     COMMAND             CREATED              STATUS              PORTS     NAMES
+d900ef6eb900   user:v1   "ping google.com"   About a minute ago   Up About a minute             cranky_cerf
+[ec2-user@ip-172-31-25-237 USER]$ docker exec -it d900ef6eb900 bash
+[nari@d900ef6eb900 /]$ id
+uid=1000(nari) gid=1000(nari) groups=1000(nari)
+[nari@d900ef6eb900 /]$ 
+     
+🔹 WORKDIR:
+
+FROM almalinux:9
+RUN mkdir /tmp/jayadir
+RUN cd /tmp/jayadir
+RUN pwd
+RUN echo "I'm Narendra jaya's kanna" > jaya.txt
+CMD ["sleep" , "1000"]
