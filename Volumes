@@ -1,0 +1,114 @@
+Volumes:
+
+  CA are by default temporary means if remove CA means by default data also will be deleted.so for the solution for issue is volumes .It is nothing but storage.
+
+When we created CA by default data will store in this directory only /var/lib/docker/overrelay2.
+
+So if we use mount point from server even after deleting the data won't delete data and that we can attach other CA.
+
+ so if we mount this jaya dir html content even if delete CA also after new CA creating by attaching jaya mount point then it won't be any data loss.
+
+/home/ec2-user/jaya:/usr/share/nginx/html nginx .
+/home/ec2-user/jaya--Host dir data
+/usr/share/nginx/html -- Container  data taking dir
+
+[ec2-user@ip-172-31-25-237 ~]$ docker run -d -p 80:80 -v  /home/ec2-user/jaya:/usr/share/nginx/html nginx
+b8a581fd8d1d66b9e295029df62acaa0fe22d4896b1b3469f4798b7db7b1b647
+[ec2-user@ip-172-31-25-237 ~]$ ls -l
+total 0
+drwxr-xr-x.  4 ec2-user ec2-user 189 Apr 10 07:25 Docker
+drwxr-xr-x. 14 ec2-user ec2-user 158 Apr 15 08:20 dockerfiles
+drwxr-xr-x.  2 ec2-user ec2-user  24 Apr 26 07:44 jaya
+[ec2-user@ip-172-31-25-237 ~]$ cd jaya/
+[ec2-user@ip-172-31-25-237 jaya]$ cat index.html 
+ <h1> it is not defalut index.html content <h1>
+[ec2-user@ip-172-31-25-237 jaya]$ 
+
+🔵 Types of Volumes
+
+1.If we create dir and we managing it then those are called un-named or un-manged volumes.
+2.If docker create dir and we managing it then those are called unamed or manged volumes.
+
+Stateless vs statefull:
+
+There WEB tier and APP tier and DB tier.
+
+Where data is important or stored is called statefull application 
+App tier is stateless
+
+So volumes should be created to stateful apps. database stores the actual data in host directories, While rendering for user it will shows tables or collections
+
+
+
+Creating Volume: After creating  volume the docker by default it will create mount point in that path only data will store (/var/lib/docker/volumes/devops/_data)
+
+
+Commands:
+
+docker volume create devops
+docker volume ls --  "Mountpoint": "/var/lib/docker/volumes/devops/_data",
+docker run -d -v devops:/usr/share/nginx/html -p 80:80 nginx
+
+
+
+[ec2-user@ip-172-31-25-237 ~]$ docker volume create devops
+devops
+[ec2-user@ip-172-31-25-237 ~]$ docker volume ls
+DRIVER    VOLUME NAME
+local     devops
+local     nginx
+[ec2-user@ip-172-31-25-237 ~]$ docker volume inspect devops
+[
+    {
+        "CreatedAt": "2026-04-27T08:03:47Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/devops/_data",
+        "Name": "devops",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+[ec2-user@ip-172-31-25-237 ~]$ sudo su -
+Last login: Mon Apr 27 08:01:26 UTC 2026 on pts/1
+[root@ip-172-31-25-237 ~]# cd /var/lib/docker/volumes/devops/_data
+[root@ip-172-31-25-237 _data]# ls -l
+total 0
+[root@ip-172-31-25-237 _data]# esit
+-bash: esit: command not found
+[root@ip-172-31-25-237 _data]# exit
+logout
+[ec2-user@ip-172-31-25-237 ~]$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                               NAMES
+a287aac91095   nginx     "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   0.0.0.0:80->80/tcp, :::80->80/tcp   competent_morse
+[ec2-user@ip-172-31-25-237 ~]$ docker rm -f a2
+a2
+[ec2-user@ip-172-31-25-237 ~]$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[ec2-user@ip-172-31-25-237 ~]$ docker run -d -v devops:/usr/share/nginx/html -p 80:80 nginx
+d5ac715276d48e6d52cdfa4647b61411b2159e502a02e07131871a21778cc81d
+[ec2-user@ip-172-31-25-237 ~]$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                               NAMES
+d5ac715276d4   nginx     "/docker-entrypoint.…"   4 seconds ago   Up 3 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   jolly_williamson
+[ec2-user@ip-172-31-25-237 ~]$ docker exec -it d5 bash
+root@d5ac715276d4:/# cd /usr/share/nginx/html/
+root@d5ac715276d4:/usr/share/nginx/html# ls -l
+total 8
+-rw-r--r--. 1 root root 497 Apr  7 11:37 50x.html
+-rw-r--r--. 1 root root 896 Apr  7 11:37 index.html
+root@d5ac715276d4:/usr/share/nginx/html# echo "Learning devops from joindevops course" > sathi.html
+root@d5ac715276d4:/usr/share/nginx/html# exit
+exit
+[ec2-user@ip-172-31-25-237 ~]$ sudo su -
+Last login: Mon Apr 27 08:04:39 UTC 2026 on pts/1
+[root@ip-172-31-25-237 ~]# cd /var/lib/docker/volumes/devops/_data/
+[root@ip-172-31-25-237 _data]# ls -l
+total 12
+-rw-r--r--. 1 root root 497 Apr  7 11:37 50x.html
+-rw-r--r--. 1 root root 896 Apr  7 11:37 index.html
+-rw-r--r--. 1 root root  39 Apr 27 08:08 sathi.html
+[root@ip-172-31-25-237 _data]# 
+
+
+
+
